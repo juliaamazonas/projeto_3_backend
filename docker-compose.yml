@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  ebac3_postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "senha"
+    ports:
+      - "5432:5432"
+    volumes:
+      - /Program Files/Docker/Docker:/var/lib/postgresql/data
+    networks:
+      - postgres-jamazonasa-network
+
+  ebac3-pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "jamazonasa@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "minha_senha"
+    ports:
+      - "8080:80"
+    depends_on:
+      - ebac3_postgres
+    networks:
+      - postgres-jamazonasa-network
+
+networks:
+  postgres-jamazonasa-network:
+    driver: bridge
